@@ -1,0 +1,75 @@
+<div class="mt-4">
+    <h3>Khoá học của tôi</h3>
+
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th scope="col" class="text-center">STT</th>
+                <th scope="col" class="text-center">Tên khoá học</th>
+                <th scope="col" class="text-center">Trình độ</th>
+                <th scope="col" class="text-center">Thời gian tạo</th>
+                <th scope="col" class="text-center">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each courses}}
+            <tr>
+                <th scope="row">{{sum @index 1}}</th>
+                <td>{{this.name}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.createdAt}}</td>
+                <td>
+                    <div class="d-flex justify-content-between">
+                        <a href="/courses/{{this._id}}/edit" class="btn btn-link">Sửa</a>
+                        <a href="" class="btn btn-link" data-bs-toggle="modal" data-id="{{this._id}}" data-bs-target="#deleteCourseModal">Xoá</a>
+                    </div>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+{{!-- Confirm delete course --}}
+<div class="modal fade" id="deleteCourseModal" tabindex="-1" aria-labelledby="deleteCourseModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteCourseModalLabel">Xoá khoá học?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Bạn chắc chắn muốn xoá khoá học này?</p>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-delete-course" type="button" class="btn btn-primary">Đồng ý</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- Hidden delete form --}}
+<form method="POST" name="delete-course-form"></form>
+
+<script>
+    let courseId
+    let deleteForm = document.forms['delete-course-form']
+    let btnDeleteCourse = document.getElementById('btn-delete-course')
+
+    const deleteCourseModal = document.getElementById('deleteCourseModal')
+    if (deleteCourseModal) {
+        deleteCourseModal.addEventListener('show.bs.modal', event => {
+            // Button that triggered the modal
+            const button = event.relatedTarget
+            // Extract info from data-bs-* attributes
+            courseId = button.getAttribute('data-id')
+    })
+
+    
+    btnDeleteCourse.onclick = () => {
+        deleteForm.action = '/courses/' + courseId + '?_method=DELETE'
+        deleteForm.submit()
+    }
+}
+</script>
