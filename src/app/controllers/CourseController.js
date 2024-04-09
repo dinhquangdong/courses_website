@@ -1,5 +1,5 @@
-const Course = require('../models/Course');
-const { mongooseToObject } = require('../../util/mongoose');
+const Course = require('../models/Course')
+const { mongooseToObject } = require('../../util/mongoose')
 
 class CourseController {
     // [GET] /courses/:slug
@@ -10,21 +10,20 @@ class CourseController {
                     course: mongooseToObject(course),
                 }),
             )
-            .catch(next);
+            .catch(next)
     }
 
     // [GET] /courses/create
     create(req, res, next) {
-        res.render('courses/create');
+        res.render('courses/create')
     }
 
     // [POST] /courses/store
     store(req, res, next) {
-        const formData = req.body;
-        formData.image = `https://img.youtube.com/vi/${req.body.videoId}/0.jpg`;
-        Course.create(formData)
-            .then(() => res.redirect('/'))
-            .catch((error) => {});
+        req.body.image = `https://img.youtube.com/vi/${req.body.videoId}/0.jpg`
+        Course.create(req.body)
+            .then(() => res.redirect('/me/stored/courses'))
+            .catch((error) => {})
     }
 
     // [GET] /courses/:id/edit
@@ -35,22 +34,41 @@ class CourseController {
                     course: mongooseToObject(course),
                 }),
             )
-            .catch(next);
+            .catch(next)
     }
 
     // [PUT] /courses/:id
     update(req, res, next) {
         Course.updateOne({ _id: req.params.id }, req.body)
             .then(() => res.redirect('/me/stored/courses'))
-            .catch(next);
+            .catch(next)
     }
 
     // [DELETE] /courses/:id
     destroy(req, res, next) {
+        Course.delete({ _id: req.params.id })
+            .then(() => res.redirect('back'))
+            .catch(next)
+    }
+
+    // [DELETE] /courses/:id/force
+    forceDestroy(req, res, next) {
         Course.deleteOne({ _id: req.params.id })
             .then(() => res.redirect('back'))
-            .catch(next);
+            .catch(next)
+    }
+
+    // [PATCH] /courses/:id/restore
+    restore(req, res, next) {
+        // Course.restore({ _id: req.params.id })
+        //     .then(() => res.redirect('back'))
+        //     .catch(next)
+
+        // Because restore method of mongoose-delete library not working properly, I don't use it
+        Course.findOneAndUpdateDeleted({ _id: req.params.id }, { deleted: false})
+            .then(() => res.redirect('back'))
+            .catch(next)
     }
 }
 
-module.exports = new CourseController();
+module.exports = new CourseController()
