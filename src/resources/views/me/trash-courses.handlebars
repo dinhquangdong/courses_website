@@ -10,11 +10,11 @@
   <table class="table mt-4">
       <thead>
           <tr>
-              <th scope="col" class="text-center">STT</th>
-              <th scope="col" class="text-center">Tên khoá học</th>
-              <th scope="col" class="text-center">Trình độ</th>
-              <th scope="col" class="text-center">Thời gian tạo</th>
-              <th scope="col" class="text-center">Thao tác</th>
+              <th scope="col">STT</th>
+              <th scope="col">Tên khoá học</th>
+              <th scope="col">Trình độ</th>
+              <th scope="col">Thời gian xoá</th>
+              <th scope="col">Thao tác</th>
           </tr>
       </thead>
       <tbody>
@@ -23,7 +23,7 @@
               <th scope="row">{{sum @index 1}}</th>
               <td>{{this.name}}</td>
               <td>{{this.description}}</td>
-              <td>{{this.createdAt}}</td>
+              <td>{{this.deletedAt}}</td>
               <td>
                   <div>
                       <a href="" class="btn btn-link btn-restore" data-id="{{this._id}}">Khôi phục</a>

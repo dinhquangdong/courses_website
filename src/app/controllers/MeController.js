@@ -4,11 +4,20 @@ const { multipleMongooseToObject } = require('../../util/mongoose')
 class MeController {
     // [GET] me/stored/courses
     async storedCourses(req, res, next) {
+        let deletedCount
+
+        await Course.countDocumentsDeleted()
+            .then((count) => {
+                deletedCount = count
+            })
+            .catch(next)
+
         await Course.find({})
             .then((courses) =>
                 res.render('me/stored-courses', {
+                    deletedCount,
                     courses: multipleMongooseToObject(courses),
-                }),
+                })
             )
             .catch(next)
     }
