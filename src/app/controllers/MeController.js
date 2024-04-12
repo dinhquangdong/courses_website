@@ -5,14 +5,20 @@ class MeController {
     // [GET] me/stored/courses
     async storedCourses(req, res, next) {
         let deletedCount
-
         await Course.countDocumentsDeleted()
             .then((count) => {
                 deletedCount = count
             })
             .catch(next)
 
-        await Course.find({})
+        let findCourses = Course.find({})
+        if(req.query.hasOwnProperty('_sort')){
+            findCourses = findCourses.sort({
+                [req.query.column] : req.query.type
+            })
+        }
+
+        await findCourses
             .then((courses) =>
                 res.render('me/stored-courses', {
                     deletedCount,

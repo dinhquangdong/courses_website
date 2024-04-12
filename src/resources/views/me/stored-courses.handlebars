@@ -33,9 +33,18 @@
     <thead>
       <td>
         <th scope="col" class="text-center">STT</th>
-        <th scope="col" class="text-center">Tên khoá học</th>
-        <th scope="col" class="text-center">Trình độ</th>
-        <th scope="col" class="text-center">Thời gian tạo</th>
+        <th scope="col" class="text-center">
+          Tên khoá học
+          {{{sortable 'name' _sort}}}
+        </th>
+        <th scope="col" class="text-center">
+          Trình độ
+          {{{sortable 'level' _sort}}}
+        </th>
+        <th scope="col" class="text-center">
+          Thời gian tạo
+          {{{sortable 'createdAt' _sort}}}
+        </th>
         <th scope="col" class="text-center">Thao tác</th>
       </td>
     </thead>
