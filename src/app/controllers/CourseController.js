@@ -23,7 +23,7 @@ class CourseController {
         req.body.image = `https://img.youtube.com/vi/${req.body.videoId}/0.jpg`
         Course.create(req.body)
             .then(() => res.redirect('/me/stored/courses'))
-            .catch((error) => {})
+            .catch(next)
     }
 
     // [GET] /courses/:id/edit
