@@ -8,7 +8,6 @@ const sortMiddleware = require('./app/middlewares/SortMiddleware')
 
 const route = require('./routes');
 const db = require('./config/db');
-const SortMiddleware = require('./app/middlewares/SortMiddleware');
 
 // connect to DB
 db.connect();
@@ -29,7 +28,7 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 
 // Custom middlewares
-app.use(SortMiddleware)
+app.use(sortMiddleware)
 
 // HTTP Logger
 app.use(morgan('combined'));
